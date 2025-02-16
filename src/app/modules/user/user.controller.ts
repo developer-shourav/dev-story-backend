@@ -9,10 +9,9 @@ const createUser = catchAsync(async (req, res) => {
     userData
   );
 
-  const resultData = result?.[0];
   sendResponse(res, 201, {
     message: 'User is created successfully',
-    data: resultData,
+    data: result,
   });
 });
 

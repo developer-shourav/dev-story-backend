@@ -24,7 +24,14 @@ const createUserIntoDB = async ( payload: TUser) => {
     await session.commitTransaction();
     await session.endSession();
 
-    return newUser;
+    //---------- Extract only required fields
+    const userData = {
+      _id: newUser[0]?._id,
+      name: newUser[0]?.name,
+      email: newUser[0]?.email,
+    };
+
+    return userData;
   } catch (err) {
     await session.abortTransaction();
     await session.endSession();
