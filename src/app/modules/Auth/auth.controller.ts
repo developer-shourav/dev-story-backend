@@ -1,3 +1,4 @@
+import config from '../../config';
 import catchAsync from '../../utils/catchAsync';
 
 import sendResponse from '../../utils/sendResponse';
@@ -16,13 +17,25 @@ const registerUser = catchAsync(async (req, res) => {
 
 /* ----------------------Register An User----------------- */
 const loginUser = catchAsync(async (req, res) => {
-  const userData = req.body;
+  const loginInfo = req.body;
   // will call service function to send this data
-  const result = await AuthServices.registerUserIntoDB(userData);
+  const result = await AuthServices.logInUser(loginInfo);
 
+  // --- Get refresh token form result
+  const { refreshToken, accessToken } = result;
+
+  // --- Save Refresh token into cookies
+  res.cookie('refreshToken', refreshToken, {
+    secure: config.NODE_ENV === 'production',
+    httpOnly: true,
+  });
+
+  // 2. Send Response to the frontend
   sendResponse(res, 200, {
     message: 'Login successful',
-    data: result,
+    data: {
+      token: accessToken,
+    },
   });
 });
 

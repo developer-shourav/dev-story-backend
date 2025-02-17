@@ -56,7 +56,7 @@ const logInUser = async (payload: { email: string; password: string }) => {
   // ----------Checking if the password Match or Not
 
   if (!(await User.isPasswordMatched(payload?.password, user?.password))) {
-    throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched!');
+    throw new AppError(401, 'Invalid credentials');
   }
 
   // ----------Create token and send to the client
