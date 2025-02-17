@@ -4,7 +4,6 @@ import { userValidation } from '../user/user.validation';
 import { AuthControllers } from './auth.controller';
 import { AuthValidation } from './auth.validation';
 
-
 const router = express.Router();
 
 // -----------Register An User
@@ -27,6 +26,5 @@ router.post(
   validateRequest(AuthValidation.refreshTokenValidationSchema),
   AuthControllers.refreshToken,
 );
-
 
 export const AuthRoutes = router;

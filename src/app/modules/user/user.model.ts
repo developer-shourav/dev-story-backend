@@ -5,7 +5,6 @@ import config from '../../config';
 
 const userSchema = new Schema<TUser, UserModel>(
   {
-
     name: {
       type: String,
       required: true,
@@ -54,7 +53,6 @@ userSchema.post('save', function (doc, next) {
 
   next();
 });
-
 
 // ----------Check if the user exists by email
 userSchema.statics.isUserExistByEmail = async function (email: string) {

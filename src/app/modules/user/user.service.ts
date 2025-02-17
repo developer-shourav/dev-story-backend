@@ -6,18 +6,16 @@ import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 
 /* --------Logic For Create a User------ */
-const createUserIntoDB = async ( payload: TUser) => {
- 
+const createUserIntoDB = async (payload: TUser) => {
   const user = await User.isUserExistByEmail(payload?.email);
   if (user) {
     throw new AppError(400, 'Email is already used.');
   }
-  
+
   const session = await mongoose.startSession();
 
   try {
     session.startTransaction();
-    
 
     const newUser = await User.create([payload], { session });
 
@@ -42,7 +40,6 @@ const createUserIntoDB = async ( payload: TUser) => {
     throw new Error(`${err}`);
   }
 };
-
 
 export const UserServices = {
   createUserIntoDB,

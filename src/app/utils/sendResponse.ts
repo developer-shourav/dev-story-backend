@@ -5,7 +5,11 @@ type TResponse<T> = {
   data: T;
 };
 
-const sendResponse = <T>(res: Response, statusCode: number,  data: TResponse<T>) => {
+const sendResponse = <T>(
+  res: Response,
+  statusCode: number,
+  data: TResponse<T>,
+) => {
   res.status(statusCode).json({
     success: true,
     message: data.message,

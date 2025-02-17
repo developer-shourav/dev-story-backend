@@ -9,14 +9,11 @@ import { createToken } from './auth.utils';
 import jwt from 'jsonwebtoken';
 
 /* --------Logic For Register an User ---------- */
-const registerUserIntoDB = async ( payload: TUser) => {
- 
-
+const registerUserIntoDB = async (payload: TUser) => {
   const session = await mongoose.startSession();
 
   try {
     session.startTransaction();
-    
 
     const newUser = await User.create([payload], { session });
 
@@ -42,9 +39,8 @@ const registerUserIntoDB = async ( payload: TUser) => {
   }
 };
 
-
 /* ---------- Logic for Login an User ----------*/
-const logInUser = async (payload: {email: string; password: string}) => {
+const logInUser = async (payload: { email: string; password: string }) => {
   // ----------Check if the user is exist
   const user = await User.isUserExistByEmail(payload?.email);
   if (!user) {
@@ -102,14 +98,11 @@ const refreshToken = async (TOKEN: string) => {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!');
   }
 
-
-
   // --------- checking if the user is Blocked
   const userStatus = user?.isBlocked;
   if (userStatus) {
     throw new AppError(httpStatus.FORBIDDEN, 'This user is Blocked!');
   }
-
 
   // ----------Create token and send to the client
   const jwtPayload = {
@@ -127,7 +120,6 @@ const refreshToken = async (TOKEN: string) => {
     accessToken,
   };
 };
-
 
 export const AuthServices = {
   registerUserIntoDB,
