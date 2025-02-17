@@ -55,9 +55,10 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
-// ----------Check if the user is exist by custom Id
-userSchema.statics.isUserExistById = async function (id: string) {
-  return await User.findById(id).select('+password');
+
+// ----------Check if the user exists by email
+userSchema.statics.isUserExistByEmail = async function (email: string) {
+  return await User.findOne({ email }).select('+password');
 };
 
 // ----------Check if the password match with the actual password

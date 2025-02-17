@@ -8,7 +8,11 @@ import httpStatus from 'http-status';
 /* --------Logic For Create a User------ */
 const createUserIntoDB = async ( payload: TUser) => {
  
-
+  const user = await User.isUserExistByEmail(payload?.email);
+  if (user) {
+    throw new AppError(400, 'Email is already used.');
+  }
+  
   const session = await mongoose.startSession();
 
   try {

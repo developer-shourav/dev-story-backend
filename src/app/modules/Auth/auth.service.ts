@@ -46,7 +46,7 @@ const registerUserIntoDB = async ( payload: TUser) => {
 /* ---------- Logic for Login an User ----------*/
 const logInUser = async (payload: {email: string; password: string}) => {
   // ----------Check if the user is exist
-  const user = await User.isUserExistById(payload?.email);
+  const user = await User.isUserExistByEmail(payload?.email);
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!');
   }
@@ -97,7 +97,7 @@ const refreshToken = async (TOKEN: string) => {
   const { userEmail } = decoded;
 
   // ----------Check if the user is exist
-  const user = await User.isUserExistById(userEmail);
+  const user = await User.isUserExistByEmail(userEmail);
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!');
   }

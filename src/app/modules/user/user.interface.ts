@@ -11,7 +11,7 @@ export interface TUser {
 }
 
 export interface UserModel extends Model<TUser> {
-  isUserExistById(id: string): Promise<TUser>;
+  isUserExistByEmail(userEmail: string): Promise<TUser>;
   isPasswordMatched(
     userInputPassword: string,
     storedHashedPassword: string,
