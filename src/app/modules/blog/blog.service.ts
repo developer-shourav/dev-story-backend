@@ -5,7 +5,7 @@ import { TBlog } from './blog.interface';
 import { User } from '../user/user.model';
 import { Blog } from './blog.model';
 
-/* --------Logic For Create a User------ */
+/* --------Logic For Create a Blog------ */
 const createBlogIntoDB = async (userEmail: string, payload: TBlog) => {
   const user = await User.isUserExistByEmail(userEmail);
   if (!user) {
@@ -45,6 +45,16 @@ const createBlogIntoDB = async (userEmail: string, payload: TBlog) => {
   }
 };
 
+/* --------Logic For Update a Blog------ */
+const updateBlogFromDB =  async (id: string, payload: Partial<TBlog>) => {
+  const result = await Blog.findByIdAndUpdate(id, payload, {
+    new: true,
+    runValidators: true,
+  });
+  return result;
+};
+
 export const BlogServices = {
   createBlogIntoDB,
+  updateBlogFromDB, 
 };
