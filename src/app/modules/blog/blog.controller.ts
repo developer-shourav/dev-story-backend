@@ -7,7 +7,7 @@ const createBlog = catchAsync(async (req, res) => {
   const user = req.user;
 
   // will call service function to send this data
-  const result = await BlogServices.createBlogIntoDB(user?.id, blogData);
+  const result = await BlogServices.createBlogIntoDB(user?.userEmail, blogData);
 
   sendResponse(res, 201, {
     message: 'Blog created successfully',

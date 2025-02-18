@@ -7,36 +7,42 @@ import { Blog } from './blog.model';
 
 /* --------Logic For Create a User------ */
 const createBlogIntoDB = async (userEmail: string, payload: TBlog) => {
+  const user = await User.isUserExistByEmail(userEmail);
+  if (!user) {
+    throw new AppError(404, 'Author is not found');
+  }
 
-//   const session = await mongoose.startSession();
+  const authorId = user?._id;
+  payload.author = authorId;
 
-//   try {
-//     session.startTransaction();
+  const session = await mongoose.startSession();
 
-//     const newBlog = await Blog.create([payload], { session });
+  try {
+    session.startTransaction();
 
-//     if (!newBlog) {
-//       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create blog');
-//     }
+    const newBlog = await Blog.create([payload], { session });
 
-//     await session.commitTransaction();
-//     await session.endSession();
+    if (!newBlog) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create blog');
+    }
 
-//     //---------- Extract only required fields
-// /*     const userData = {
-//       _id: newUser[0]?._id,
-//       name: newUser[0]?.name,
-//       email: newUser[0]?.email,
-//     }; */
+    await session.commitTransaction();
+    await session.endSession();
 
-//     return newBlog;
-//   } catch (err) {
-//     await session.abortTransaction();
-//     await session.endSession();
-//     throw new Error(`${err}`);
-//   }
+    //---------- Extract only required fields
+    const createdBlog = {
+      _id: newBlog[0]?._id,
+      title: newBlog[0]?.title,
+      content: newBlog[0]?.content,
+      author: newBlog[0]?.author,
+    };
 
-  return payload;
+    return createdBlog;
+  } catch (err) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new Error(`${err}`);
+  }
 };
 
 export const BlogServices = {
