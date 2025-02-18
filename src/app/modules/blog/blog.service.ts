@@ -4,6 +4,7 @@ import httpStatus from 'http-status';
 import { TBlog } from './blog.interface';
 import { User } from '../user/user.model';
 import { Blog } from './blog.model';
+import QueryBuilder from '../../builder/QueryBuilder';
 
 /* --------Logic For Create a Blog------ */
 const createBlogIntoDB = async (userEmail: string, payload: TBlog) => {
@@ -85,8 +86,24 @@ const deleteBlogFromDB = async (id: string) => {
   return result;
 };
 
+/* --------Logic For get all Blogs------ */
+const getAllBlogsFromDB = async (query: Record<string, unknown>) => {
+  const blogSearchFields = ['title', 'content', 'author.name', 'author.email'];
+
+  // Search, Filter, Sort, Pagination and Field Filtering Using Query Chaining Method
+  const blogQuery = new QueryBuilder(Blog.find().populate('author'), query)
+    .search(blogSearchFields)
+    .filter()
+    .sort()
+    .pagination()
+    .fieldFiltering();
+  const result = await blogQuery.queryModel;
+  return result;
+};
+
 export const BlogServices = {
   createBlogIntoDB,
   updateBlogFromDB,
   deleteBlogFromDB,
+  getAllBlogsFromDB,
 };

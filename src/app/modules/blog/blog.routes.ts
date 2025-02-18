@@ -23,7 +23,10 @@ router.patch(
   BlogControllers.updateBlog,
 );
 
-// -----------delete A Blog------------
+// -----------Delete A Blog------------
 router.delete('/:id', auth(USER_ROLE.user), BlogControllers.deleteBlog);
+
+// -----------Get All Blogs------------
+router.get('/', BlogControllers.getAllBlogs);
 
 export const BlogRoutes = router;
