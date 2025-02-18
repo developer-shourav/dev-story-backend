@@ -47,12 +47,11 @@ const createBlogIntoDB = async (userEmail: string, payload: TBlog) => {
 
 /* --------Logic For Update a Blog------ */
 const updateBlogFromDB = async (id: string, payload: Partial<TBlog>) => {
- 
   /* ----------find The Blog Exist Or Not--------------- */
   const isBlogExist = await Blog.findById(id);
-  if(!isBlogExist){
+  if (!isBlogExist) {
     throw new AppError(404, 'Blog is not found');
-  };
+  }
 
   const result = await Blog.findByIdAndUpdate(id, payload, {
     new: true,
@@ -69,7 +68,25 @@ const updateBlogFromDB = async (id: string, payload: Partial<TBlog>) => {
   return blogUpdateResult;
 };
 
+/* --------Logic For Delete a Blog------ */
+const deleteBlogFromDB = async (id: string) => {
+  /* ----------find The Blog Exist Or Not--------------- */
+  const isBlogExist = await Blog.findById(id);
+  if (!isBlogExist) {
+    throw new AppError(404, 'Blog is not found');
+  }
+
+  const result = await Blog.findByIdAndDelete(id);
+
+  if (!result) {
+    throw new AppError(400, 'Blog delete failed');
+  }
+
+  return result;
+};
+
 export const BlogServices = {
   createBlogIntoDB,
   updateBlogFromDB,
+  deleteBlogFromDB,
 };

@@ -15,11 +15,10 @@ const createBlog = catchAsync(async (req, res) => {
   });
 });
 
-
 /* ----------------------Update A Blog----------------- */
 const updateBlog = catchAsync(async (req, res) => {
   const blogUpdateData = req.body;
-  const {id} = req.params;
+  const { id } = req.params;
 
   // will call service function to send this data
   const result = await BlogServices.updateBlogFromDB(id, blogUpdateData);
@@ -30,7 +29,20 @@ const updateBlog = catchAsync(async (req, res) => {
   });
 });
 
+/* ----------------------Delete A Blog----------------- */
+const deleteBlog = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  // will call service function to send this data
+  await BlogServices.deleteBlogFromDB(id);
+
+  sendResponse(res, 200, {
+    message: 'Blog deleted successfully',
+  });
+});
+
 export const BlogControllers = {
   createBlog,
   updateBlog,
+  deleteBlog,
 };
