@@ -46,15 +46,30 @@ const createBlogIntoDB = async (userEmail: string, payload: TBlog) => {
 };
 
 /* --------Logic For Update a Blog------ */
-const updateBlogFromDB =  async (id: string, payload: Partial<TBlog>) => {
+const updateBlogFromDB = async (id: string, payload: Partial<TBlog>) => {
+ 
+  /* ----------find The Blog Exist Or Not--------------- */
+  const isBlogExist = await Blog.findById(id);
+  if(!isBlogExist){
+    throw new AppError(404, 'Blog is not found');
+  };
+
   const result = await Blog.findByIdAndUpdate(id, payload, {
     new: true,
     runValidators: true,
-  });
-  return result;
+  }).populate('author');
+
+  const blogUpdateResult = {
+    _id: result?._id,
+    title: result?.title,
+    content: result?.content,
+    author: result?.author,
+  };
+
+  return blogUpdateResult;
 };
 
 export const BlogServices = {
   createBlogIntoDB,
-  updateBlogFromDB, 
+  updateBlogFromDB,
 };
