@@ -30,7 +30,15 @@ class QueryBuilder<T> {
   // ------Method For Filtering ------
   filter() {
     const queryObject = { ...this.query };
-    const excludedFields = ['search', 'sortBy', 'sortOrder', 'limit', 'page', 'fields', 'filter'];
+    const excludedFields = [
+      'search',
+      'sortBy',
+      'sortOrder',
+      'limit',
+      'page',
+      'fields',
+      'filter',
+    ];
     excludedFields.forEach((field) => delete queryObject[field]);
 
     if (this.query?.filter) {
@@ -60,7 +68,8 @@ class QueryBuilder<T> {
 
   // ------Method For Field Filtering ------
   fieldFiltering() {
-    const fields = (this.query?.fields as string)?.split(',').join(' ') || '-__v';
+    const fields =
+      (this.query?.fields as string)?.split(',').join(' ') || '-__v';
     this.queryModel = this.queryModel.select(fields);
     return this;
   }

@@ -47,11 +47,25 @@ const createBlogIntoDB = async (userEmail: string, payload: TBlog) => {
 };
 
 /* --------Logic For Update a Blog------ */
-const updateBlogFromDB = async (id: string, payload: Partial<TBlog>) => {
+const updateBlogFromDB = async (
+  userId: string,
+  id: string,
+  payload: Partial<TBlog>,
+) => {
   /* ----------find The Blog Exist Or Not--------------- */
   const isBlogExist = await Blog.findById(id);
   if (!isBlogExist) {
-    throw new AppError(404, 'Blog is not found');
+    throw new AppError(httpStatus.NOT_FOUND, 'Blog is not found');
+  }
+
+  const BlogAuthorId: string = isBlogExist?.author.toString();
+
+  /* --------- checking This blog ownership---------- */
+  if (userId !== BlogAuthorId) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      'You are not authorized to update this blog',
+    );
   }
 
   const result = await Blog.findByIdAndUpdate(id, payload, {
@@ -70,11 +84,21 @@ const updateBlogFromDB = async (id: string, payload: Partial<TBlog>) => {
 };
 
 /* --------Logic For Delete a Blog------ */
-const deleteBlogFromDB = async (id: string) => {
+const deleteBlogFromDB = async (userId: string, id: string) => {
   /* ----------find The Blog Exist Or Not--------------- */
   const isBlogExist = await Blog.findById(id);
   if (!isBlogExist) {
     throw new AppError(404, 'Blog is not found');
+  }
+
+  const BlogAuthorId: string = isBlogExist?.author.toString();
+
+  /* --------- checking This blog ownership---------- */
+  if (userId !== BlogAuthorId) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      'You are not authorized to delete this blog',
+    );
   }
 
   const result = await Blog.findByIdAndDelete(id);
@@ -97,11 +121,10 @@ const getAllBlogsFromDB = async (query: Record<string, unknown>) => {
     .sortBy()
     .pagination()
     .fieldFiltering();
-  
+
   const result = await blogQuery.queryModel;
   return result;
 };
-
 
 export const BlogServices = {
   createBlogIntoDB,

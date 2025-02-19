@@ -19,9 +19,14 @@ const createBlog = catchAsync(async (req, res) => {
 const updateBlog = catchAsync(async (req, res) => {
   const blogUpdateData = req.body;
   const { id } = req.params;
+  const { userId } = req.user;
 
   // will call service function to send this data
-  const result = await BlogServices.updateBlogFromDB(id, blogUpdateData);
+  const result = await BlogServices.updateBlogFromDB(
+    userId,
+    id,
+    blogUpdateData,
+  );
 
   sendResponse(res, 200, {
     message: 'Blog updated successfully',
@@ -32,9 +37,10 @@ const updateBlog = catchAsync(async (req, res) => {
 /* ----------------------Delete A Blog----------------- */
 const deleteBlog = catchAsync(async (req, res) => {
   const { id } = req.params;
+  const { userId } = req.user;
 
   // will call service function to send this data
-  await BlogServices.deleteBlogFromDB(id);
+  await BlogServices.deleteBlogFromDB(userId, id);
 
   sendResponse(res, 200, {
     message: 'Blog deleted successfully',
