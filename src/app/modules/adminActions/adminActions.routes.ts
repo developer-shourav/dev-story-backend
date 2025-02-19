@@ -5,6 +5,13 @@ import { AdminActionsControllers } from './adminActions.controller';
 
 const router = express.Router();
 
+// -----------Block User By Admin------------
+router.patch(
+  '/users/:userId/block',
+  auth(USER_ROLE.admin),
+  AdminActionsControllers.blockUser,
+);
+
 // -----------Delete A Blog By Admin------------
 router.delete(
   '/blogs/:id',
