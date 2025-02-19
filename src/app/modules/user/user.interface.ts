@@ -3,6 +3,8 @@ import { Model } from 'mongoose';
 import { USER_ROLE } from './user.constant';
 
 export interface TUser {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  _id?: any;
   name: string;
   email: string;
   password: string;
