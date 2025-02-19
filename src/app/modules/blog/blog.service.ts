@@ -88,18 +88,20 @@ const deleteBlogFromDB = async (id: string) => {
 
 /* --------Logic For get all Blogs------ */
 const getAllBlogsFromDB = async (query: Record<string, unknown>) => {
-  const blogSearchFields = ['title', 'content', 'author.name', 'author.email'];
+  const blogSearchFields = ['title', 'content'];
 
-  // Search, Filter, Sort, Pagination and Field Filtering Using Query Chaining Method
+  // Search, Filter, Sort, Pagination, and Field Filtering Using Query Chaining Method
   const blogQuery = new QueryBuilder(Blog.find().populate('author'), query)
     .search(blogSearchFields)
     .filter()
-    .sort()
+    .sortBy()
     .pagination()
     .fieldFiltering();
+  
   const result = await blogQuery.queryModel;
   return result;
 };
+
 
 export const BlogServices = {
   createBlogIntoDB,
