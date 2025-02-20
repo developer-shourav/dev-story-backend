@@ -1,3 +1,4 @@
+import httpStatus from 'http-status';
 import config from '../../config';
 import catchAsync from '../../utils/catchAsync';
 
@@ -31,7 +32,7 @@ const loginUser = catchAsync(async (req, res) => {
   });
 
   // 2. Send Response to the frontend
-  sendResponse(res, 200, {
+  sendResponse(res, httpStatus.OK, {
     message: 'Login successful',
     data: {
       token: accessToken,
@@ -46,7 +47,7 @@ const refreshToken = catchAsync(async (req, res) => {
   const result = await AuthServices.refreshToken(refreshToken);
 
   // 2. Send Response to the frontend
-  sendResponse(res, 200, {
+  sendResponse(res, httpStatus.OK, {
     message: 'Access token is retrieved successfully!',
     data: result,
   });

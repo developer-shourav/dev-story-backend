@@ -1,3 +1,4 @@
+import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { BlogServices } from './blog.service';
@@ -28,7 +29,7 @@ const updateBlog = catchAsync(async (req, res) => {
     blogUpdateData,
   );
 
-  sendResponse(res, 200, {
+  sendResponse(res, httpStatus.OK, {
     message: 'Blog updated successfully',
     data: result,
   });
@@ -42,7 +43,7 @@ const deleteBlog = catchAsync(async (req, res) => {
   // will call service function to send this data
   await BlogServices.deleteBlogFromDB(userId, id);
 
-  sendResponse(res, 200, {
+  sendResponse(res, httpStatus.OK, {
     message: 'Blog deleted successfully',
   });
 });
@@ -53,7 +54,7 @@ const getAllBlogs = catchAsync(async (req, res) => {
   // will call service function to send this data
   const result = await BlogServices.getAllBlogsFromDB(query);
 
-  sendResponse(res, 200, {
+  sendResponse(res, httpStatus.OK, {
     message: 'Blogs fetched successfully',
     data: result,
   });

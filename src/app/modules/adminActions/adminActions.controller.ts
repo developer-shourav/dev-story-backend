@@ -1,3 +1,4 @@
+import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { AdminActionsServices } from './adminActions.service';
@@ -9,7 +10,7 @@ const blockUser = catchAsync(async (req, res) => {
   // will call service function to send this data
   await AdminActionsServices.blockUserFromDB(userId);
 
-  sendResponse(res, 200, {
+  sendResponse(res, httpStatus.OK, {
     message: 'User blocked successfully',
   });
 });
@@ -21,7 +22,7 @@ const deleteBlog = catchAsync(async (req, res) => {
   // will call service function to send this data
   await AdminActionsServices.deleteBlogFromDB(id);
 
-  sendResponse(res, 200, {
+  sendResponse(res, httpStatus.OK, {
     message: 'Blog deleted successfully',
   });
 });

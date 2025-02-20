@@ -229,7 +229,6 @@ Example Request:
 - **Method:** `DELETE`
 - **Requires Authentication** (`Authorization: Bearer <token>`)
 
-
 **Response:**
 
 ```json
@@ -239,7 +238,6 @@ Example Request:
   "statusCode": 200
 }
 ```
-
 
 ### 7. Admin Actions - Block User
 
@@ -256,7 +254,6 @@ Example Request:
   "message": "User blocked successfully",
   "statusCode": 200
 }
-
 ```
 
 ### 8. Admin Actions- Delete Blogs
@@ -274,7 +271,6 @@ Example Request:
   "message": "Blog deleted successfully",
   "statusCode": 200
 }
-
 ```
 
 ---
@@ -284,5 +280,3 @@ Example Request:
 <a href='https://drive.google.com/file/d/1AcWz9tT3ehQerfPaZM-5T6Xm27qKBqDK/view?usp=sharing' target=_blank>
     <img width='350px' src="./readmeImg/watch-video-button-01.png" />
 </a>
-
--
